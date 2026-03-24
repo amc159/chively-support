@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://chively-support.vercel.app"),
+  metadataBase: new URL("https://support.chively.com"),
   title: { default: "Chively Help Center", template: "%s | Chively Help" },
   description: "Support documentation for Chively POS — the restaurant management platform built for how you actually run your business.",
   icons: {
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Chively Help Center",
     description: "Support documentation for Chively POS — guides, troubleshooting, and hardware setup.",
-    url: "https://chively-support.vercel.app",
+    url: "https://support.chively.com",
     siteName: "Chively Help Center",
     images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: "Chively Help Center" }],
     type: "website",
