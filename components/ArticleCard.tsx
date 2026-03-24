@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronRight, Clock } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import type { ArticleMeta } from "@/lib/articles";
 
 export default function ArticleCard({ article }: { article: ArticleMeta }) {
@@ -37,7 +37,7 @@ export default function ArticleCard({ article }: { article: ArticleMeta }) {
           ))}
         </div>
       </div>
-      <ChevronRight
+      <ArrowRight
         size={16}
         className="text-brand-border group-hover:text-brand-primary transition-colors mt-1 shrink-0"
       />

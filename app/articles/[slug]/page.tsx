@@ -2,7 +2,7 @@ import { getArticleBySlug, getAllSlugs, getArticlesByCategory, getCategoriesWith
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
-import { ChevronRight, Clock, Tag, ArrowLeft } from "lucide-react";
+import { ChevronRight, Clock, Tag, ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { createImageUrlBuilder } from "@sanity/image-url";
@@ -166,7 +166,7 @@ export default async function ArticlePage({ params }: Props) {
                       className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-brand-dark hover:bg-white hover:text-brand-primary transition-colors group border border-transparent hover:border-brand-border"
                     >
                       <span className="leading-snug">{a.title}</span>
-                      <ChevronRight size={16} className="text-brand-dark/60 group-hover:text-brand-primary shrink-0 ml-2" />
+                      <ArrowRight size={16} className="text-brand-dark/60 group-hover:text-brand-primary shrink-0 ml-2" />
                     </Link>
                   ))}
                 </div>
@@ -174,7 +174,7 @@ export default async function ArticlePage({ params }: Props) {
                   href={`/category/${article.categorySlug}`}
                   className="inline-flex items-center gap-1.5 mt-3 text-sm text-brand-primary hover:text-brand-secondary transition-colors font-medium px-3"
                 >
-                  View all in {article.category} <ChevronRight size={16} />
+                  View all in {article.category} <ArrowRight size={16} />
                 </Link>
               </div>
             )}

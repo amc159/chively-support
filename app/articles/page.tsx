@@ -4,7 +4,7 @@ import SearchBar from "@/components/SearchBar";
 import CategoriesSidebarNav from "@/components/CategoriesSidebarNav";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "All Articles",
@@ -47,7 +47,7 @@ export default async function ArticlesPage() {
                   href={`/category/${group.slug}`}
                   className="inline-flex items-center gap-1.5 text-sm text-brand-primary hover:text-brand-secondary transition-colors font-medium"
                 >
-                  View all <ChevronRight size={16} />
+                  View all <ArrowRight size={16} />
                 </Link>
               </div>
               <div className="bg-white border border-brand-border rounded-xl overflow-hidden px-4 divide-y divide-brand-border">

@@ -3,7 +3,7 @@ import CategoryCard from "@/components/CategoryCard";
 import SearchBar from "@/components/SearchBar";
 import ArticleCard from "@/components/ArticleCard";
 import Link from "next/link";
-import { ChevronRight, Phone, Mail } from "lucide-react";
+import { ArrowRight, Phone, Mail } from "lucide-react";
 
 export default async function HomePage() {
   const categories = await getCategoriesWithCount();
@@ -72,7 +72,7 @@ export default async function HomePage() {
                 href="/articles"
                 className="flex items-center gap-1.5 text-sm text-brand-primary hover:text-brand-secondary transition-colors font-medium"
               >
-                View all <ChevronRight size={16} />
+                View all <ArrowRight size={16} />
               </Link>
             </div>
 
