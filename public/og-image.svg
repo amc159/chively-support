@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="g1" cx="20%" cy="-10%" r="80%">
+      <stop offset="0%" stop-color="#12665E" stop-opacity="0.65"/>
+      <stop offset="70%" stop-color="#053333" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g2" cx="90%" cy="10%" r="70%">
+      <stop offset="0%" stop-color="#0A4B46" stop-opacity="0.5"/>
+      <stop offset="75%" stop-color="#053333" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="noise" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="0.7" fill="rgba(255,255,255,0.04)"/>
+      <circle cx="4.5" cy="3.5" r="0.55" fill="rgba(255,255,255,0.03)"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="#053333"/>
+  <rect width="1200" height="630" fill="url(#g1)"/>
+  <rect width="1200" height="630" fill="url(#g2)"/>
+  <rect width="1200" height="630" fill="url(#noise)"/>
+
+  <g transform="translate(90,145)">
+    <text x="0" y="0" fill="#E1FFA0" font-size="28" font-family="Noto Sans, Arial, sans-serif" font-weight="700" letter-spacing="2">CHIVELY HELP CENTER</text>
+    <text x="0" y="112" fill="#FCFEFD" font-size="76" font-family="Noto Sans, Arial, sans-serif" font-weight="700">Support for Modern</text>
+    <text x="0" y="198" fill="#FCFEFD" font-size="76" font-family="Noto Sans, Arial, sans-serif" font-weight="700">Restaurant Operations</text>
+    <text x="0" y="268" fill="rgba(252,254,253,0.72)" font-size="34" font-family="Noto Sans, Arial, sans-serif">Guides, troubleshooting, and hardware setup documentation.</text>
+    <text x="0" y="340" fill="#E1FFA0" font-size="30" font-family="Noto Sans, Arial, sans-serif" font-weight="700">chively.com</text>
+  </g>
+</svg>

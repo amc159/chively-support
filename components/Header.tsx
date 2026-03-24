@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X, ExternalLink } from "lucide-react";
+import Image from "next/image";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -12,10 +13,13 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <img
+          <Image
             src="https://www.chively.com/wp-content/uploads/2025/10/chively_logo_dark_color.png"
             alt="Chively"
+            width={140}
+            height={28}
             className="h-7 w-auto"
+            priority
           />
           <span className="text-sm font-medium text-brand-dark/85 group-hover:text-brand-primary transition-colors hidden sm:block">
             Help Center

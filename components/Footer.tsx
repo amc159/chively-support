@@ -1,13 +1,16 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
     <footer className="bg-brand-secondary text-white/70 mt-auto">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <img
+          <Image
             src="https://www.chively.com/wp-content/uploads/2025/10/chively_logo_white.png"
             alt="Chively"
+            width={120}
+            height={24}
             className="h-6 w-auto opacity-80"
           />
           <span className="text-xs text-white/40">Help Center</span>
