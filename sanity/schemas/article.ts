@@ -7,7 +7,7 @@ export default defineType({
   fields: [
     defineField({
       name: "title",
-      title: "Title",
+      title: "Title (H1)",
       type: "string",
       validation: (Rule) => Rule.required().min(5),
     }),
@@ -20,17 +20,32 @@ export default defineType({
     }),
     defineField({
       name: "description",
-      title: "Short Description",
+      title: "Short Description (Excerpt)",
       type: "text",
       rows: 3,
       validation: (Rule) => Rule.required().min(20).max(240),
+    }),
+    defineField({
+      name: "metaTitle",
+      title: "Meta Title (SEO, optional)",
+      type: "string",
+      description: "If empty, the article Title (H1) will be used automatically.",
+      validation: (Rule) => Rule.max(70),
+    }),
+    defineField({
+      name: "metaDescription",
+      title: "Meta Description (SEO, optional)",
+      type: "text",
+      rows: 3,
+      description: "If empty, the Short Description (Excerpt) will be used automatically.",
+      validation: (Rule) => Rule.max(180),
     }),
     defineField({
       name: "category",
       title: "Primary Category",
       type: "reference",
       to: [{ type: "category" }],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().error("At least one category is required."),
     }),
     defineField({
       name: "secondaryCategories",
@@ -94,7 +109,7 @@ export default defineType({
           ],
         }),
       ],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().min(1).error("Article body content is required."),
     }),
   ],
   orderings: [

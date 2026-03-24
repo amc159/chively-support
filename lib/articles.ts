@@ -12,6 +12,8 @@ export type Article = {
   slug: string;
   title: string;
   description: string;
+  metaTitle?: string;
+  metaDescription?: string;
   category: string;
   categorySlug: string;
   tags: string[];
@@ -95,6 +97,8 @@ function readArticleFile(filename: string): Article {
     slug,
     title: data.title ?? "Untitled",
     description: data.description ?? "",
+    metaTitle: data.metaTitle,
+    metaDescription: data.metaDescription,
     category: data.category ?? "General",
     categorySlug: data.categorySlug ?? "general",
     tags: data.tags ?? [],
@@ -113,6 +117,8 @@ async function getSanityArticles(): Promise<Article[] | null> {
       slug: row.slug,
       title: row.title ?? "Untitled",
       description: row.description ?? "",
+      metaTitle: row.metaTitle,
+      metaDescription: row.metaDescription,
       category: row.category ?? "General",
       categorySlug: row.categorySlug ?? "general",
       tags: row.tags ?? [],
@@ -166,6 +172,8 @@ export async function getArticleBySlug(slug: string): Promise<Article | undefine
           slug: row.slug,
           title: row.title ?? "Untitled",
           description: row.description ?? "",
+          metaTitle: row.metaTitle,
+          metaDescription: row.metaDescription,
           category: row.category ?? "General",
           categorySlug: row.categorySlug ?? "general",
           tags: row.tags ?? [],
