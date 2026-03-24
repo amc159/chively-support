@@ -17,13 +17,13 @@ const ICON_MAP: Record<string, LucideIcon> = {
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  const cats = getCategoriesWithCount();
+  const cats = await getCategoriesWithCount();
   return cats.map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const cats = getCategoriesWithCount();
+  const cats = await getCategoriesWithCount();
   const cat = cats.find((c) => c.slug === slug);
   if (!cat) return {};
   return { title: cat.name, description: cat.description };
@@ -31,11 +31,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params;
-  const cats = getCategoriesWithCount();
+  const cats = await getCategoriesWithCount();
   const category = cats.find((c) => c.slug === slug);
   if (!category) notFound();
 
-  const articles = getArticlesByCategory(slug);
+  const articles = await getArticlesByCategory(slug);
   const Icon = ICON_MAP[category.icon] ?? Rocket;
 
   return (

@@ -5,9 +5,9 @@ import ArticleCard from "@/components/ArticleCard";
 import Link from "next/link";
 import { ArrowRight, Phone, Mail } from "lucide-react";
 
-export default function HomePage() {
-  const categories = getCategoriesWithCount();
-  const allArticles = getAllArticleMeta();
+export default async function HomePage() {
+  const categories = await getCategoriesWithCount();
+  const allArticles = await getAllArticleMeta();
   const recentArticles = allArticles.slice(0, 5);
   const totalArticles = allArticles.length;
 

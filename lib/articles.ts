@@ -1,25 +1,12 @@
-/**
- * lib/articles.ts
- *
- * Data layer for articles. Currently reads from /content/articles/*.mdx (local files).
- *
- * ── SANITY MIGRATION ──────────────────────────────────────────────────────────
- * When you're ready to move to Sanity, replace the functions in this file with
- * Sanity GROQ queries. All components import from here, so nothing else changes.
- *
- * Example Sanity swap:
- *   import { client } from "@/lib/sanity"
- *   export async function getAllArticles() {
- *     return client.fetch(`*[_type == "article"] | order(publishedAt desc)`)
- *   }
- * ──────────────────────────────────────────────────────────────────────────────
- */
-
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { hasSanityConfig, sanityClient } from "@/lib/sanity.client";
+import { allArticlesQuery, articleBySlugQuery, categoriesQuery } from "@/lib/sanity.queries";
 
 const ARTICLES_DIR = path.join(process.cwd(), "content/articles");
+
+export type RichBodyContent = any[] | string;
 
 export type Article = {
   slug: string;
@@ -30,7 +17,7 @@ export type Article = {
   tags: string[];
   publishedAt: string;
   updatedAt?: string;
-  content: string; // raw MDX string
+  content: RichBodyContent;
 };
 
 export type ArticleMeta = Omit<Article, "content">;
@@ -117,43 +104,104 @@ function readArticleFile(filename: string): Article {
   };
 }
 
+async function getSanityArticles(): Promise<Article[] | null> {
+  if (!hasSanityConfig || !sanityClient) return null;
+
+  try {
+    const rows = await sanityClient.fetch<any[]>(allArticlesQuery);
+    return rows.map((row) => ({
+      slug: row.slug,
+      title: row.title ?? "Untitled",
+      description: row.description ?? "",
+      category: row.category ?? "General",
+      categorySlug: row.categorySlug ?? "general",
+      tags: row.tags ?? [],
+      publishedAt: row.publishedAt ?? new Date().toISOString(),
+      updatedAt: row.updatedAt,
+      content: row.body ?? [],
+    }));
+  } catch {
+    return null;
+  }
+}
+
+async function getSanityCategories(): Promise<Omit<Category, "articleCount">[] | null> {
+  if (!hasSanityConfig || !sanityClient) return null;
+
+  try {
+    const rows = await sanityClient.fetch<any[]>(categoriesQuery);
+    return rows.map((row) => ({
+      name: row.name,
+      slug: row.slug,
+      description: row.description,
+      icon: row.icon || "Rocket",
+    }));
+  } catch {
+    return null;
+  }
+}
+
 // ─── Public API ───────────────────────────────────────────────────────────────
 
-export function getAllArticles(): Article[] {
+export async function getAllArticles(): Promise<Article[]> {
+  const sanityArticles = await getSanityArticles();
+  if (sanityArticles && sanityArticles.length > 0) return sanityArticles;
+
   if (!fs.existsSync(ARTICLES_DIR)) return [];
   const files = fs.readdirSync(ARTICLES_DIR).filter((f) => f.endsWith(".mdx") || f.endsWith(".md"));
-  return files
-    .map(readArticleFile)
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  return files.map(readArticleFile).sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 }
 
-export function getAllArticleMeta(): ArticleMeta[] {
-  return getAllArticles().map(({ content: _content, ...meta }) => meta);
+export async function getAllArticleMeta(): Promise<ArticleMeta[]> {
+  const articles = await getAllArticles();
+  return articles.map(({ content: _content, ...meta }) => meta);
 }
 
-export function getArticleBySlug(slug: string): Article | undefined {
+export async function getArticleBySlug(slug: string): Promise<Article | undefined> {
+  if (hasSanityConfig && sanityClient) {
+    try {
+      const row = await sanityClient.fetch<any | null>(articleBySlugQuery, { slug });
+      if (row) {
+        return {
+          slug: row.slug,
+          title: row.title ?? "Untitled",
+          description: row.description ?? "",
+          category: row.category ?? "General",
+          categorySlug: row.categorySlug ?? "general",
+          tags: row.tags ?? [],
+          publishedAt: row.publishedAt ?? new Date().toISOString(),
+          updatedAt: row.updatedAt,
+          content: row.body ?? [],
+        };
+      }
+    } catch {
+      // Falls back to local MDX when Sanity query fails.
+    }
+  }
+
   const files = fs.existsSync(ARTICLES_DIR) ? fs.readdirSync(ARTICLES_DIR) : [];
   const match = files.find((f) => f.replace(/\.mdx?$/, "") === slug);
   if (!match) return undefined;
   return readArticleFile(match);
 }
 
-export function getArticlesByCategory(categorySlug: string): ArticleMeta[] {
-  return getAllArticleMeta().filter((a) => a.categorySlug === categorySlug);
+export async function getArticlesByCategory(categorySlug: string): Promise<ArticleMeta[]> {
+  const meta = await getAllArticleMeta();
+  return meta.filter((a) => a.categorySlug === categorySlug);
 }
 
-export function getCategoriesWithCount(): Category[] {
-  const meta = getAllArticleMeta();
-  return CATEGORIES.map((cat) => ({
+export async function getCategoriesWithCount(): Promise<Category[]> {
+  const meta = await getAllArticleMeta();
+  const sanityCategories = await getSanityCategories();
+  const source = sanityCategories && sanityCategories.length > 0 ? sanityCategories : CATEGORIES;
+
+  return source.map((cat) => ({
     ...cat,
     articleCount: meta.filter((a) => a.categorySlug === cat.slug).length,
   }));
 }
 
-export function getAllSlugs(): string[] {
-  if (!fs.existsSync(ARTICLES_DIR)) return [];
-  return fs
-    .readdirSync(ARTICLES_DIR)
-    .filter((f) => f.endsWith(".mdx") || f.endsWith(".md"))
-    .map((f) => f.replace(/\.mdx?$/, ""));
+export async function getAllSlugs(): Promise<string[]> {
+  const articles = await getAllArticles();
+  return articles.map((a) => a.slug);
 }

@@ -4,16 +4,46 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { ChevronRight, Clock, Tag, ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
+import { PortableText, type PortableTextComponents } from "@portabletext/react";
+import imageUrlBuilder from "@sanity/image-url";
+import { sanityClient } from "@/lib/sanity.client";
+import Image from "next/image";
 
 type Props = { params: Promise<{ slug: string }> };
 
+const imageBuilder = sanityClient ? imageUrlBuilder(sanityClient) : null;
+
+const portableTextComponents: PortableTextComponents = {
+  types: {
+    image: ({ value }) => {
+      const src = imageBuilder?.image(value).width(1200).fit("max").auto("format").url();
+      if (!src) return null;
+      const alt = value?.alt || "Article image";
+      return (
+        <figure className="my-6">
+          <Image
+            src={src}
+            alt={alt}
+            width={1200}
+            height={800}
+            className="w-full h-auto rounded-xl border border-brand-border"
+          />
+          {value?.caption ? (
+            <figcaption className="text-sm text-brand-dark/70 mt-2">{value.caption}</figcaption>
+          ) : null}
+        </figure>
+      );
+    },
+  },
+};
+
 export async function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }));
+  return (await getAllSlugs()).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
   if (!article) return {};
   return {
     title: article.title,
@@ -23,10 +53,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
   if (!article) notFound();
 
-  const relatedArticles = getArticlesByCategory(article.categorySlug)
+  const relatedArticles = (await getArticlesByCategory(article.categorySlug))
     .filter((a) => a.slug !== slug)
     .slice(0, 4);
 
@@ -91,7 +121,11 @@ export default async function ArticlePage({ params }: Props) {
           {/* Article body */}
           <div className="bg-white border border-brand-border rounded-xl p-8">
             <div className="article-body">
-              <MDXRemote source={article.content} />
+              {Array.isArray(article.content) ? (
+                <PortableText value={article.content} components={portableTextComponents} />
+              ) : (
+                <MDXRemote source={article.content} />
+              )}
             </div>
           </div>
 

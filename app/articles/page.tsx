@@ -10,9 +10,9 @@ export const metadata: Metadata = {
   description: "Browse all Chively POS help articles.",
 };
 
-export default function ArticlesPage() {
-  const allArticles = getAllArticleMeta();
-  const categories = getCategoriesWithCount().filter((c) => c.articleCount > 0);
+export default async function ArticlesPage() {
+  const allArticles = await getAllArticleMeta();
+  const categories = (await getCategoriesWithCount()).filter((c) => c.articleCount > 0);
 
   // Group articles by category
   const grouped = categories.map((cat) => ({
