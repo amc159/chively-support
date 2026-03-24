@@ -5,13 +5,13 @@ import Link from "next/link";
 import { ChevronRight, Clock, Tag, ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
-import imageUrlBuilder from "@sanity/image-url";
+import { createImageUrlBuilder } from "@sanity/image-url";
 import { sanityClient } from "@/lib/sanity.client";
 import Image from "next/image";
 
 type Props = { params: Promise<{ slug: string }> };
 
-const imageBuilder = sanityClient ? imageUrlBuilder(sanityClient) : null;
+const imageBuilder = sanityClient ? createImageUrlBuilder(sanityClient) : null;
 
 const portableTextComponents: PortableTextComponents = {
   types: {
