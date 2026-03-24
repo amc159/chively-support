@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary:   #12665E;
+  --secondary: #053333;
+  --accent:    #E1FFA0;
+  --dark:      #1B1F20;
+  --light:     #EBF5F1;
+  --white:     #FCFEFD;
+  --border:    #e8eae9;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-brand-dark bg-brand-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold text-brand-secondary;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-brand-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium
+           hover:bg-brand-secondary transition-colors duration-200;
+  }
+
+  .btn-ghost {
+    @apply border border-brand-border text-brand-primary px-5 py-2.5 rounded-lg text-sm font-medium
+           hover:bg-brand-light transition-colors duration-200;
+  }
+
+  .card {
+    @apply bg-white border border-brand-border rounded-xl p-6
+           hover:border-brand-primary hover:shadow-sm transition-all duration-200;
+  }
+
+  /* Article prose overrides */
+  .article-body h2 {
+    @apply text-xl font-semibold text-brand-secondary mt-8 mb-3 pb-2 border-b border-brand-border;
+  }
+  .article-body h3 {
+    @apply text-base font-semibold text-brand-secondary mt-6 mb-2;
+  }
+  .article-body p {
+    @apply text-[15px] leading-relaxed text-brand-dark mb-4;
+  }
+  .article-body ul, .article-body ol {
+    @apply pl-5 mb-4 space-y-1.5 text-[15px];
+  }
+  .article-body li {
+    @apply text-brand-dark leading-relaxed;
+  }
+  .article-body a {
+    @apply text-brand-primary underline underline-offset-2 hover:text-brand-secondary;
+  }
+  .article-body strong {
+    @apply font-semibold text-brand-secondary;
+  }
+  .article-body blockquote {
+    @apply border-l-4 border-brand-primary pl-4 py-1 bg-brand-light rounded-r-lg my-4
+           text-brand-secondary italic;
+  }
+  .article-body table {
+    @apply w-full text-sm border-collapse mb-6;
+  }
+  .article-body th {
+    @apply bg-brand-light text-brand-secondary font-semibold text-left px-4 py-2.5
+           border border-brand-border;
+  }
+  .article-body td {
+    @apply px-4 py-2.5 border border-brand-border text-brand-dark;
+  }
+  .article-body code {
+    @apply bg-brand-light text-brand-primary text-[13px] px-1.5 py-0.5 rounded font-mono;
+  }
+
+  .article-body .screenshot-placeholder {
+    @apply my-5 rounded-xl border-2 border-dashed border-brand-primary bg-gradient-to-br from-brand-light to-brand-white p-4;
+  }
+  .article-body .screenshot-placeholder__title {
+    @apply text-xs font-semibold uppercase tracking-wider text-brand-secondary mb-1;
+  }
+  .article-body .screenshot-placeholder__note {
+    @apply text-sm text-brand-dark/85 mb-0 leading-relaxed;
+  }
+}
