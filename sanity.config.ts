@@ -10,6 +10,7 @@ export default defineConfig({
   title: "Chively Help Center CMS",
   projectId,
   dataset,
+  basePath: "/studio",
   plugins: [structureTool()],
   schema: {
     types: schemaTypes,
