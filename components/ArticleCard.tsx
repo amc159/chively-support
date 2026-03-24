@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Clock } from "lucide-react";
+import { ChevronRight, Clock } from "lucide-react";
 import type { ArticleMeta } from "@/lib/articles";
 
 export default function ArticleCard({ article }: { article: ArticleMeta }) {
@@ -12,8 +12,8 @@ export default function ArticleCard({ article }: { article: ArticleMeta }) {
   return (
     <Link
       href={`/articles/${article.slug}`}
-      className="group flex items-start justify-between gap-4 py-4 border-b border-brand-border
-                 last:border-b-0 hover:bg-brand-accent/25 -mx-4 px-4 rounded-lg transition-colors duration-150"
+      className="group flex items-start justify-between gap-4 py-4
+                 hover:bg-brand-accent/25 -mx-4 px-4 transition-colors duration-150"
     >
       <div className="flex-1 min-w-0">
         <h3 className="text-[15px] font-medium text-brand-secondary group-hover:text-brand-primary transition-colors leading-snug">
@@ -37,7 +37,7 @@ export default function ArticleCard({ article }: { article: ArticleMeta }) {
           ))}
         </div>
       </div>
-      <ArrowRight
+      <ChevronRight
         size={16}
         className="text-brand-border group-hover:text-brand-primary transition-colors mt-1 shrink-0"
       />

@@ -44,7 +44,7 @@ export default async function CategoryPage({ params }: Props) {
       <div className="bg-brand-white border-b border-brand-border">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-2 text-sm text-brand-dark/70">
           <Link href="/" className="hover:text-brand-primary transition-colors">Help Center</Link>
-          <ChevronRight size={14} />
+          <ChevronRight size={16} />
           <span className="text-brand-dark">{category.name}</span>
         </div>
       </div>
@@ -99,7 +99,7 @@ export default async function CategoryPage({ params }: Props) {
           {/* Article list */}
           <div className="flex-1 min-w-0">
             {articles.length > 0 ? (
-              <div className="bg-white border border-brand-border rounded-xl px-4 divide-y divide-brand-border">
+              <div className="bg-white border border-brand-border rounded-xl overflow-hidden px-4 divide-y divide-brand-border">
                 {articles.map((article) => (
                   <ArticleCard key={article.slug} article={article} />
                 ))}

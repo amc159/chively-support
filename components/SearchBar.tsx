@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Search, X, FileText, ArrowRight } from "lucide-react";
+import { Search, X, FileText, ChevronRight } from "lucide-react";
 import Fuse from "fuse.js";
 import type { ArticleMeta } from "@/lib/articles";
 import Link from "next/link";
@@ -124,7 +124,7 @@ export default function SearchBar({
                         </p>
                         <p className="text-xs text-brand-dark/60 mt-0.5 truncate">{article.category}</p>
                       </div>
-                      <ArrowRight size={14} className="text-brand-dark/35 group-hover:text-brand-primary transition-colors mt-0.5 shrink-0" />
+                      <ChevronRight size={16} className="text-brand-dark/35 group-hover:text-brand-primary transition-colors mt-0.5 shrink-0" />
                     </Link>
                   </li>
                 ))}
