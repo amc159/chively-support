@@ -14,7 +14,7 @@ export default function HomePage() {
   return (
     <>
       {/* ── Hero ────────────────────────────────────────────────────── */}
-      <section className="bg-brand-secondary text-white">
+      <section className="hero-noise-bg text-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20 text-center">
           <span className="inline-block text-xs font-semibold text-brand-accent uppercase tracking-widest mb-4">
             Chively Help Center
